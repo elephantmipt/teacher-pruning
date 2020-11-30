@@ -56,7 +56,7 @@ def main(args):
         weight_decay=0.0005
     )
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=args.Tmax,
+        optimizer, T_max=args.T_max,
     )
     runner = dl.SupervisedRunner()
     runner.train(
