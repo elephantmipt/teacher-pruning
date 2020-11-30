@@ -69,7 +69,7 @@ def main(args):
             dl.AccuracyCallback(num_classes=10),
             WandbCallback()
         ],
-        num_epochs=200,
+        num_epochs=args.epoch,
         logdir=f"logs/{run.name}",
         verbose=True
     )
