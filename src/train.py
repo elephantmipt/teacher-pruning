@@ -57,7 +57,7 @@ def main(args):
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=args.T_max
     )
-    runner = dl.SupervisedRunner()
+    runner = dl.SupervisedRunner(device=args.device)
     try:
         logdir=f"logs/{wandb.run.name}"
     except AttributeError:
