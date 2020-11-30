@@ -54,12 +54,14 @@ def main(args):
         momentum=args.momentum,
         weight_decay=0.0005
     )
-    print("ok")
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=args.T_max
     )
-    print("ok")
     runner = dl.SupervisedRunner(device=args.device)
+    try:
+        logdir=f"logs/{wandb.run.name}"
+    except:
+        logdir="logs"
     runner.train(
         model=model,
         optimizer=optimizer,
@@ -71,7 +73,7 @@ def main(args):
             WandbCallback()
         ],
         num_epochs=200,
-        logdir=f"logs/{wandb.run.name}",
+        logdir=logdir,
         verbose=True
     )
 
