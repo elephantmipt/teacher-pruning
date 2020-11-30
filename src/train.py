@@ -15,7 +15,6 @@ from catalyst.utils import set_global_seed
 from callbacks.wandb import WandbCallback
 
 
-
 def main(args):
     run = wandb.init()
     set_global_seed(42)
@@ -58,7 +57,7 @@ def main(args):
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=args.T_max,
     )
-    runner = dl.SupervisedRunner()
+    runner = dl.SupervisedRunner(device=args.device)
     runner.train(
         model=model,
         optimizer=optimizer,
