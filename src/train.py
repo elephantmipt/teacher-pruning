@@ -16,7 +16,7 @@ from callbacks.wandb import WandbCallback
 
 
 def main(args):
-    run = wandb.init()
+    wandb.init(project="teacher-pruning", config=vars(args))
     set_global_seed(42)
     transform_train = T.Compose([
         T.RandomCrop(32, padding=4),
@@ -31,10 +31,10 @@ def main(args):
     ])
 
     train_dataset = datasets.CIFAR10(
-        root=os.getcwd(), train=True, transform=transform_train, download=True,
+        root=os.getcwd(), train=True, transform=transform_train, download=True
     )
     valid_dataset = datasets.CIFAR10(
-        root=os.getcwd(), train=False, transform=transform_test, download=True,
+        root=os.getcwd(), train=False, transform=transform_test
     )
     train_dataloader = DataLoader(
         dataset=train_dataset, batch_size=args.batch_size, shuffle=True
@@ -54,9 +54,11 @@ def main(args):
         momentum=args.momentum,
         weight_decay=0.0005
     )
+    print("ok")
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=args.T_max,
+        optimizer, T_max=args.T_max
     )
+    print("ok")
     runner = dl.SupervisedRunner(device=args.device)
     runner.train(
         model=model,
@@ -68,8 +70,8 @@ def main(args):
             dl.AccuracyCallback(num_classes=10),
             WandbCallback()
         ],
-        num_epochs=args.epoch,
-        logdir=f"logs/{run.name}",
+        num_epochs=200,
+        logdir=f"logs/{wandb.run.name}",
         verbose=True
     )
 
@@ -79,7 +81,7 @@ if __name__ == "__main__":
     parser.add_argument("--lr", default=0.1, type=float)
     parser.add_argument("--batch-size", default=128, type=int)
     parser.add_argument("--momentum", default=0.9, type=float)
-    parser.add_argument("-d", "--device", default="cuda:0")
+    parser.add_argument("-d", "--device", default="cuda:0", type=str)
     parser.add_argument("--T-max", default=200)
     parser.add_argument("--epoch", default=200, type=int)
     args = parser.parse_args()
