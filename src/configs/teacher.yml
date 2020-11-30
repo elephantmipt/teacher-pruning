@@ -1,0 +1,22 @@
+
+command:
+  - ${env}
+  - python3
+  - ./src/train.py
+  - ${args}
+  - --device
+  - "cuda:0"
+
+method: bayes
+metric:
+  goal: maximize
+  name: valid_accuracy01
+parameters:
+  lr:
+    values: [0.05, 0.1]
+  momentum:
+    values: [0.8, 0.9]
+  T-max:
+    values: [100, 200]
+  batch-size:
+    values: [32, 64, 128]
