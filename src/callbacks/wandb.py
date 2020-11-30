@@ -15,7 +15,7 @@ class WandbCallback(dl.Callback):
         wandb.log(to_log, commit=False)
 
     def on_epoch_end(self, runner):
-        wandb.commit()
+        wandb.log({}, commit=True)
 
     def on_stage_end(self, runner):
         artifact = wandb.Artifact('best-model', type='model')
