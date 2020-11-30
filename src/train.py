@@ -77,7 +77,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--lr", default=0.1, type=int)
+    parser.add_argument("--lr", default=0.1, type=float)
     parser.add_argument("--batch-size", default=128, type=int)
     parser.add_argument("--momentum", default=0.9, type=float)
     parser.add_argument("-d", "--device", default="cuda:0")
