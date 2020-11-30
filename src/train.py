@@ -85,7 +85,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", default=128, type=int)
     parser.add_argument("--momentum", default=0.9, type=float)
     parser.add_argument("-d", "--device", default="cuda:0", type=str)
-    parser.add_argument("--T-max", default=200)
+    parser.add_argument("--T-max", default=200, type=int)
     parser.add_argument("--epoch", default=200, type=int)
     args = parser.parse_args()
     main(args)
