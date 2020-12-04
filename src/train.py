@@ -2,6 +2,7 @@ import argparse
 import os
 
 import torch
+from torch.optim.lr_scheduler import MultiStepLR
 from torch import nn
 from torch.utils.data import DataLoader
 
@@ -48,20 +49,17 @@ def main(args):
     model = models.resnet18(pretrained=False)
     model.fc = nn.Linear(512, 10)
 
-    optimizer = torch.optim.SGD(
+    optimizer = torch.optim.Adam(
         model.parameters(),
         lr=args.lr,
         momentum=args.momentum,
         weight_decay=0.0005
     )
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=args.T_max
+    scheduler = MultiStepLR(
+        optimizer, milestones=[66, 122], gamma=args.gamma
     )
     runner = dl.SupervisedRunner(device=args.device)
-    try:
-        logdir=f"logs/{wandb.run.name}"
-    except AttributeError:
-        logdir="logs"
+    logdir=f"logs/{wandb.run.name}"
 
     runner.train(
         model=model,
@@ -81,11 +79,12 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--lr", default=0.1, type=float)
+    parser.add_argument("--lr", default=0.001, type=float)
     parser.add_argument("--batch-size", default=128, type=int)
     parser.add_argument("--momentum", default=0.9, type=float)
     parser.add_argument("-d", "--device", default="cuda:0", type=str)
     parser.add_argument("--T-max", default=200, type=int)
-    parser.add_argument("--epoch", default=200, type=int)
+    parser.add_argument("--epoch", default=150, type=int)
+    parser.add_argument("--gamma", default=0.1, type=float)
     args = parser.parse_args()
     main(args)
