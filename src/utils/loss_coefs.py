@@ -5,7 +5,7 @@ if TYPE_CHECKING:
     from numpy import ndarray
 
 
-def get_loss_coefs(alpha: float, beta: float = None) -> ndarray:
+def get_loss_coefs(alpha: float, beta: float = None) -> "ndarray":
     """
     Returns loss weights. Sum of the weights is 1.
     Args:

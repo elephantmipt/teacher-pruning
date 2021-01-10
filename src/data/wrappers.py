@@ -11,3 +11,6 @@ class TorchvisionDatasetWrapper(data.Dataset):
             "features": features,
             "targets": targets,
         }
+
+    def __len__(self):
+        return len(self.dataset)

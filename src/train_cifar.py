@@ -85,7 +85,7 @@ def main(args):
         parameters = model.parameters()
     # optimizer
     optimizer_cls = NAME2OPTIM[args.optimizer]
-    optimizer_kwargs = {"parameters": parameters, "lr": args.lr}
+    optimizer_kwargs = {"params": parameters, "lr": args.lr}
     if args.optimizer == "sgd":
         optimizer_kwargs["momentum"] = args.momentum
     else:
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     parser.add_argument("--beta1", default=0.99, type=float)
     parser.add_argument("--beta2", default=0.999, type=float)
     parser.add_argument("-d", "--device", default="cuda:0", type=str)
-    parser.add_argument("--epoch", default=200, type=int)
+    parser.add_argument("--epoch", default=150, type=int)
     parser.add_argument("--gamma", default=0.1, type=float)
     parser.add_argument(
         "--alpha",
