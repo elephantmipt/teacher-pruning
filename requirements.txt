@@ -1,4 +1,4 @@
 torch
 catalyst
 wandb
-torchvison
+torchvision
