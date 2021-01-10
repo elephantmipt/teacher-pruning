@@ -2,7 +2,7 @@
 command:
   - ${env}
   - python3
-  - ./src/train.py
+  - ./src/train_cifar.py
   - ${args}
   - --device
   - "cuda:0"

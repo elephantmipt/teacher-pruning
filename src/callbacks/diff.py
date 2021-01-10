@@ -64,6 +64,28 @@ class DiffLossCallback(Callback):
 
 class DiffOutputCallback(DiffLossCallback):
 
+    def __init__(
+            self,
+            criterion: str = None,
+            temperature: float = 1.,
+            metric_key: str = "diff_output_loss"
+    ):
+        """
+        KL Div loss on output callback.
+        Args:
+            criterion: criterion for loss on outputs.
+            Can be kl, mse or cos.
+            temperature: temperature for logits.
+            metric_key: key for metric in batch_metrics dict.
+        Raises:
+            TypeError: if criterion is not correct.
+        """
+        super().__init__(
+            criterion=criterion,
+            temperature=temperature,
+            metric_key=metric_key,
+        )
+
     def on_batch_end(self, runner: "IRunner") -> None:
         """
         On batch end action. Calculates difference between
@@ -88,7 +110,7 @@ class DiffHiddenCallback(DiffLossCallback):
             self,
             criterion: str = None,
             temperature: float = 1.,
-            metric_key: str = "diff_loss"
+            metric_key: str = "diff_hidden_loss"
     ):
         """
         KL Div loss on output callback.
@@ -141,3 +163,6 @@ class DiffHiddenCallback(DiffLossCallback):
                     self._calculate_loss(c_student_hidden, c_teacher_hidden) \
                     / len(student_hiddens)
             runner.batch_metrics["output_diff_loss"] = loss
+
+
+__all__ = ["DiffOutputCallback", "DiffHiddenCallback"]
